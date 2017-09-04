@@ -6,22 +6,28 @@ import live.coinvalue.model.cex.pojo.CexPojo;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.logging.Logger;
 
+@Component
 @Entity(name = "cex")
 public class Cex {
+
 
     @Id
     private long id = 1;
 
-    @Column
+    @Column(name = "usd")
     private double usdValue;
-    @Column
+    @Column(name = "eur")
     private double eurValue;
-    @Column
+    @Column(name = "gbp")
     private double gbpValue;
-    @Column
+    @Column(name = "btc")
     private double btcValue;
 
 
@@ -36,57 +42,48 @@ public class Cex {
         this.gson = new Gson();
     }
 
-    public void updateUsdValue(){
+
+    public double updateValue(String value){
+        String url;
+
+        switch (value){
+            case "usd":
+                url = "https://cex.io/api/ticker/ETH/USD";
+                break;
+            case "eur":
+                url = "https://cex.io/api/ticker/ETH/EUR";
+                break;
+            case "gbp":
+                url = "https://cex.io/api/ticker/ETH/GBP";
+                break;
+            case "btc":
+                url = "https://cex.io/api/ticker/ETH/BTC";
+                break;
+            default:
+                return 0;
+        }
+
         Request request = new Request.Builder()
-                .url("https://cex.io/api/ticker/ETH/USD")
+                .url(url)
                 .build();
+
+        Logger logger = Logger.getLogger(Cex.class.getName());
+
 
         try {
             Response response = this.client.newCall(request).execute();
             CexPojo cexPojo = this.gson.fromJson(response.body().charStream(), CexPojo.class);
 
-            System.out.println(response.code() + " <-- CODE!");
-            System.out.print(cexPojo.getLast() + " <-- LAST PRICEE! USD");
+            logger.info("Price in " + value + ": " + cexPojo.getLast());
 
-            this.setUsdValue(Double.parseDouble(cexPojo.getLast()));
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void updateEurValue(){
-        Request request = new Request.Builder()
-                .url("https://cex.io/api/ticker/ETH/USD")
-                .build();
-
-        try {
-            Response response = this.client.newCall(request).execute();
-            CexPojo cexPojo = this.gson.fromJson(response.body().charStream(), CexPojo.class);
-
-            System.out.println(response.code() + " <-- CODE!");
-            System.out.println(cexPojo.getLast() + " <-- Prajs!");
+            return cexPojo.getLast();
 
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.warning("Failed to get price("+value+"):\n" +
+                    ex.getStackTrace().toString());
+            return 0;
         }
-    }
 
-    public void updateGbpValue(){
-        Request request = new Request.Builder()
-                .url("https://cex.io/api/ticker/ETH/GBP")
-                .build();
-
-        try {
-            Response response = this.client.newCall(request).execute();
-            CexPojo cexPojo = this.gson.fromJson(response.body().charStream(), CexPojo.class);
-
-            System.out.println(response.code() + " <-- CODE!");
-            System.out.print(cexPojo.getLast() + " <-- LAST PRICEE! GBP");
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
     }
 
 
@@ -129,4 +126,5 @@ public class Cex {
     public void setBtcValue(double btcValue) {
         this.btcValue = btcValue;
     }
+
 }

@@ -3,31 +3,31 @@ package live.coinvalue.model.cex.pojo;
 
 public class CexPojo {
 
-    private String low;
-    private String high;
-    private String last;
+    private double low;
+    private double high;
+    private double last;
 
-    public String getLow() {
+    public double getLow() {
         return low;
     }
 
-    public void setLow(String low) {
+    public void setLow(double low) {
         this.low = low;
     }
 
-    public String getHigh() {
+    public double getHigh() {
         return high;
     }
 
-    public void setHigh(String high) {
+    public void setHigh(double high) {
         this.high = high;
     }
 
-    public String getLast() {
+    public double getLast() {
         return last;
     }
 
-    public void setLast(String last) {
+    public void setLast(double last) {
         this.last = last;
     }
 

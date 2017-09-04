@@ -1,18 +1,13 @@
 package live.coinvalue.controllers;
 
-import live.coinvalue.model.cex.Cex;
-import live.coinvalue.model.cex.pojo.CexPojo;
-import live.coinvalue.repository.CexRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import live.coinvalue.model.Profile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.*;
+
 @RestController
 public class MainController {
-
-
-    @Autowired
-    CexRepository cexRepository;
 
 
     @RequestMapping("/")
@@ -21,17 +16,13 @@ public class MainController {
     }
 
 
-    @RequestMapping("/cex/usd")
-    public double cexUsdValue(){
-        Cex cex = cexRepository.findOne((long) 1);
-        return cex.getUsdValue();
-    }
+    @RequestMapping("/info")
+    public List<Profile> info(){
 
+        Profile p1 = new Profile("cex", Arrays.asList("usd", "eur", "gbp", "btc"));
+        Profile p2 = new Profile("gemini", Arrays.asList("usd", "btc"));
 
-    @RequestMapping("/cex/eur")
-    public double cexEurValue(){
-        Cex cex = cexRepository.findOne((long) 1);
-        return cex.getEurValue();
+        return Arrays.asList(p1, p2);
     }
 
 }

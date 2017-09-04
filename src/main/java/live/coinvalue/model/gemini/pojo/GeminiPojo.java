@@ -3,32 +3,32 @@ package live.coinvalue.model.gemini.pojo;
 
 public class GeminiPojo {
 
-    private String bid;
-    private String ask;
-    private String last;
+    private double bid;
+    private double ask;
+    private double last;
 
-    public String getBid() {
+    public double getBid() {
         return bid;
     }
 
-    public void setBid(String bid) {
+    public void setBid(double bid) {
         this.bid = bid;
     }
 
-    public String getAsk() {
+    public double getAsk() {
         return ask;
     }
 
-    public void setAsk(String ask) {
+    public void setAsk(double ask) {
         this.ask = ask;
     }
 
 
-    public String getLast() {
+    public double getLast() {
         return last;
     }
 
-    public void setLast(String last) {
+    public void setLast(double last) {
         this.last = last;
     }
 
