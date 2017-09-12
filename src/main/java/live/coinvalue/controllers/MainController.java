@@ -4,6 +4,7 @@ import live.coinvalue.model.Profile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @RestController
@@ -21,8 +22,10 @@ public class MainController {
 
         Profile p1 = new Profile("cex", Arrays.asList("usd", "eur", "gbp", "btc"));
         Profile p2 = new Profile("gemini", Arrays.asList("usd", "btc"));
+        Profile p3 = new Profile("hey", Arrays.asList("gbp", "eur"));
 
         return Arrays.asList(p1, p2);
+//        return Arrays.asList(p1, p2, p3);
     }
 
 }
