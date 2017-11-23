@@ -1,6 +1,6 @@
 package live.coinvalue.componets;
 
-import live.coinvalue.model.poloniex.Poloniex;
+import live.coinvalue.sources.poloniex_com.Poloniex;
 import live.coinvalue.repository.PoloniexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

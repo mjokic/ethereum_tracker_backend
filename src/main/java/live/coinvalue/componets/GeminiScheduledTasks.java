@@ -1,6 +1,6 @@
 package live.coinvalue.componets;
 
-import live.coinvalue.model.gemini.Gemini;
+import live.coinvalue.sources.gemini_com.Gemini;
 import live.coinvalue.repository.GeminiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

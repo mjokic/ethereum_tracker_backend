@@ -1,6 +1,6 @@
 package live.coinvalue.componets;
 
-import live.coinvalue.model.cex.Cex;
+import live.coinvalue.sources.cex_io.CexSource;
 import live.coinvalue.repository.CexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +17,7 @@ public class CexScheduledTasks {
     @Autowired
     CexRepository cexRepository;
     @Autowired
-    Cex cex;
+    CexSource cex;
 
 
     @Scheduled(fixedDelay = 30000)
@@ -57,7 +57,7 @@ public class CexScheduledTasks {
     @Scheduled(fixedDelay = 86400000)
 //    @Scheduled(fixedDelay = 600000)
     public void _24hrChange(){
-        Cex cex = cexRepository.findOne((long) 1);
+        CexSource cex = cexRepository.findOne((long) 1);
         cex.setId(2);
         cexRepository.save(cex);
 

@@ -1,35 +1,28 @@
-package live.coinvalue.model.cex;
-
+package live.coinvalue.sources.gemini_com;
 
 import com.google.gson.Gson;
-import live.coinvalue.model.cex.pojo.CexPojo;
+import live.coinvalue.sources.gemini_com.pojo.GeminiPojo;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.logging.Logger;
 
 @Component
-@Entity(name = "cex")
-public class Cex {
-
+@Entity(name = "gemini")
+public class Gemini {
 
     @Id
     private long id = 1;
-
     @Column(name = "usd")
     private double usdValue;
-    @Column(name = "eur")
-    private double eurValue;
-    @Column(name = "gbp")
-    private double gbpValue;
     @Column(name = "btc")
     private double btcValue;
-
 
     @Transient
     private OkHttpClient client;
@@ -37,7 +30,7 @@ public class Cex {
     private Gson gson;
 
 
-    public Cex(){
+    public Gemini(){
         this.client = new OkHttpClient();
         this.gson = new Gson();
     }
@@ -48,16 +41,10 @@ public class Cex {
 
         switch (value){
             case "usd":
-                url = "https://cex.io/api/ticker/ETH/USD";
-                break;
-            case "eur":
-                url = "https://cex.io/api/ticker/ETH/EUR";
-                break;
-            case "gbp":
-                url = "https://cex.io/api/ticker/ETH/GBP";
+                url = "https://api.gemini.com/v1/pubticker/ethusd";
                 break;
             case "btc":
-                url = "https://cex.io/api/ticker/ETH/BTC";
+                url = "https://api.gemini.com/v1/pubticker/ethbtc";
                 break;
             default:
                 return 0;
@@ -67,25 +54,24 @@ public class Cex {
                 .url(url)
                 .build();
 
-        Logger logger = Logger.getLogger(Cex.class.getName());
 
+        Logger logger = Logger.getLogger(Gemini.class.getName());
 
         try {
             Response response = this.client.newCall(request).execute();
-            CexPojo cexPojo = this.gson.fromJson(response.body().charStream(), CexPojo.class);
+            GeminiPojo geminiPojo = this.gson.fromJson(response.body().charStream(), GeminiPojo.class);
 
-            logger.info("Price in " + value + ": " + cexPojo.getLast());
+            logger.info("Price in " + value + ": " + geminiPojo.getLast());
 
-            return cexPojo.getLast();
+            return geminiPojo.getLast();
 
         }catch (Exception ex){
             logger.warning("Failed to get price("+value+"):\n" +
-                    ex.getStackTrace().toString());
+                    ex.getStackTrace());
             return 0;
         }
 
     }
-
 
     public long getId() {
         return id;
@@ -101,22 +87,6 @@ public class Cex {
 
     public void setUsdValue(double usdValue) {
         this.usdValue = usdValue;
-    }
-
-    public double getEurValue() {
-        return eurValue;
-    }
-
-    public void setEurValue(double eurValue) {
-        this.eurValue = eurValue;
-    }
-
-    public double getGbpValue() {
-        return gbpValue;
-    }
-
-    public void setGbpValue(double gbpValue) {
-        this.gbpValue = gbpValue;
     }
 
     public double getBtcValue() {

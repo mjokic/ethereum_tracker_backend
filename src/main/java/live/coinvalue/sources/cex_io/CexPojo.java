@@ -1,4 +1,4 @@
-package live.coinvalue.model.cex.pojo;
+package live.coinvalue.sources.cex_io;
 
 
 public class CexPojo {
@@ -30,6 +30,5 @@ public class CexPojo {
     public void setLast(double last) {
         this.last = last;
     }
-
 
 }

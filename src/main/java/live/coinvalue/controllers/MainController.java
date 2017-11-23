@@ -1,11 +1,10 @@
 package live.coinvalue.controllers;
 
 import live.coinvalue.model.Currency;
-import live.coinvalue.model.Profile;
+import live.coinvalue.model.Source;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @RestController
@@ -19,19 +18,23 @@ public class MainController {
     }
 
 
+    /**
+     * Get all sources from the database
+     * Every source contains site name and currency list
+     */
     @RequestMapping("/info")
-    public List<Profile> info(){
-
-        Currency usd = new Currency("usd", "$");
-        Currency eur = new Currency("eur", "€");
-        Currency gbp = new Currency("gbp", "£");
-        Currency btc = new Currency("btc", "฿");
-
-        Profile p1 = new Profile("cex", Arrays.asList(usd,eur,gbp,btc));
-        Profile p2 = new Profile("gemini", Arrays.asList(usd,btc));
-        Profile p3 = new Profile("poloniex", Arrays.asList(usd,btc));
-
-        return Arrays.asList(p1, p2, p3);
+    public List<Source> info(){
+//        Currency usd = new Currency("usd", "$");
+//        Currency eur = new Currency("eur", "€");
+//        Currency gbp = new Currency("gbp", "£");
+//        Currency btc = new Currency("btc", "฿");
+//
+//        Source p1 = new Source("cex", Arrays.asList(usd,eur,gbp,btc));
+//        Source p2 = new Source("gemini", Arrays.asList(usd,btc));
+//        Source p3 = new Source("poloniex", Arrays.asList(usd,btc));
+//
+//        return Arrays.asList(p1, p2, p3);
+        return null;
     }
 
 }

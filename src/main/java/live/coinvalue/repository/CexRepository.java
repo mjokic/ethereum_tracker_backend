@@ -1,12 +1,11 @@
 package live.coinvalue.repository;
 
-import live.coinvalue.model.cex.Cex;
-import live.coinvalue.model.cex.pojo.CexPojo;
+import live.coinvalue.sources.cex_io.CexSource;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CexRepository extends CrudRepository<Cex, Long> {
+public interface CexRepository extends CrudRepository<CexSource, Long> {
 
 
 
