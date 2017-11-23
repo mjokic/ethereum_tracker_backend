@@ -4,12 +4,13 @@ public class ResponsePojo {
 
     private double currentPrice;
     private double change24hour;
+    private Currency currency;
 
-    public ResponsePojo(double currentPrice, double change24hour){
+    public ResponsePojo(double currentPrice, double change24hour, Currency currency){
         this.currentPrice = currentPrice;
         this.change24hour = change24hour; // or do change calculation here and as parameter accept previous price
+        this.currency = currency;
     }
-
 
     public double getCurrentPrice() {
         return currentPrice;
@@ -25,5 +26,13 @@ public class ResponsePojo {
 
     public void setChange24hour(double change24hour) {
         this.change24hour = change24hour;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

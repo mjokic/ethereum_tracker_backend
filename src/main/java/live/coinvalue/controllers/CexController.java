@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/cex/")
+@RequestMapping("/api/cex/")
 public class CexController {
 
     @Autowired

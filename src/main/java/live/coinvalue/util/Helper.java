@@ -7,7 +7,8 @@ public class Helper {
 
     public static ResponsePojo generateResponsePojo(double oldPrice, double currentPrice){
         double change = Precision.round(((oldPrice * 100 / currentPrice) - 100) * (-1),2);
-        return new ResponsePojo(currentPrice, change);
+//        return new ResponsePojo(currentPrice, change);
+        return null;
     }
 
 }
