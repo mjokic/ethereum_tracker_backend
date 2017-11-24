@@ -31,4 +31,12 @@ public class CexPojo {
         this.last = last;
     }
 
+    @Override
+    public String toString() {
+        return "CexPojo{" +
+                "low=" + low +
+                ", high=" + high +
+                ", last=" + last +
+                '}';
+    }
 }

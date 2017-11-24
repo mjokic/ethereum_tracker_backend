@@ -1,4 +1,4 @@
-package live.coinvalue.sources.poloniex_com.pojo;
+package live.coinvalue.sources.poloniex_com;
 
 public class PoloniexPojo {
 

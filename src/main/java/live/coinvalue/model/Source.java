@@ -1,29 +1,31 @@
 package live.coinvalue.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Source {
 
     @Id
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
     private String site;
 
-    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "source", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Currency> currencies;
 
-    @OneToMany(mappedBy = "source")
+    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Price> price;
 
-    public Source(String site, List<Currency> currencies) {
-        this.site = site;
-        this.currencies = currencies;
-    }
+    public Source(){}
 
+    public Source(String site) {
+        this.site = site;
+        this.currencies = new ArrayList<>();
+    }
 
     public long getId() {
         return id;
@@ -49,11 +51,15 @@ public class Source {
         this.currencies = currencies;
     }
 
-//    public Price getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(Price price) {
-//        this.price = price;
-//    }
+    public List<Price> getPrice() {
+        return price;
+    }
+
+    public void setPrice(List<Price> price) {
+        this.price = price;
+    }
+
+    public void addCurrencies(List<Currency> c){
+        this.currencies.addAll(c);
+    }
 }

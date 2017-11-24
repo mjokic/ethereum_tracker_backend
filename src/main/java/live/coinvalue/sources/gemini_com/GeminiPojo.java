@@ -1,4 +1,4 @@
-package live.coinvalue.sources.gemini_com.pojo;
+package live.coinvalue.sources.gemini_com;
 
 
 public class GeminiPojo {

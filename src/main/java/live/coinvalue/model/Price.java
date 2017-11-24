@@ -1,29 +1,39 @@
 package live.coinvalue.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Price {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     @Column
     private Date date;
-
-    @ManyToOne
-    @JoinColumn(name = "source_site")
-    private Source source;
-
-    @ManyToOne
-    @JoinColumn(name = "currency_name")
-    private Currency currency;
 
     @Column
     private double price;
 
+    @ManyToOne
+    @JoinColumn(name = "source")
+    private Source source;
 
-    public Price(){
+    @ManyToOne
+    @JoinColumn(name = "currency")
+    private Currency currency;
 
+    public Price(){}
+
+    public Price(Date date, double price, Source source, Currency currency) {
+        this.date = date;
+        this.price = price;
+        this.source = source;
+        this.currency = currency;
     }
 
     public Date getDate() {
@@ -34,6 +44,7 @@ public class Price {
         this.date = date;
     }
 
+    @JsonIgnore
     public Source getSource() {
         return source;
     }
@@ -42,6 +53,7 @@ public class Price {
         this.source = source;
     }
 
+    @JsonIgnore
     public Currency getCurrency() {
         return currency;
     }

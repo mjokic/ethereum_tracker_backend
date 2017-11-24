@@ -1,6 +1,7 @@
 package live.coinvalue.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,16 +14,20 @@ public class Currency {
     @Column
     private String sign;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "source_id")
-    private Source source;
+    private List<Source> source;
 
-    @OneToMany(mappedBy = "currency")
+    @OneToMany(mappedBy = "currency", cascade = CascadeType.ALL)
     private List<Price> price;
+
+    public Currency(){}
 
     public Currency(String name, String sign){
         this.name = name;
         this.sign = sign;
+        this.source = new ArrayList<>();
+        this.price = new ArrayList<>();
     }
 
 
@@ -42,19 +47,26 @@ public class Currency {
         this.sign = sign;
     }
 
-    public Source getSource() {
+    public List<Source> getSource() {
         return source;
     }
 
-    public void setSource(Source source) {
+    public void setSource(List<Source> source) {
         this.source = source;
     }
 
-//    public Price getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(Price price) {
-//        this.price = price;
-//    }
+    public List<Price> getPrice() {
+        return price;
+    }
+
+    public void setPrice(List<Price> price) {
+        this.price = price;
+    }
+
+
+    public Currency addSource(Source source){
+        this.source.add(source);
+        return this;
+    }
+
 }

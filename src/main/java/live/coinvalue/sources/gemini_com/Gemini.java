@@ -1,7 +1,6 @@
 package live.coinvalue.sources.gemini_com;
 
 import com.google.gson.Gson;
-import live.coinvalue.sources.gemini_com.pojo.GeminiPojo;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -13,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.util.logging.Logger;
 
-@Component
-@Entity(name = "gemini")
 public class Gemini {
 
     @Id

@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import live.coinvalue.sources.poloniex_com.pojo.PoloniexPojo;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.util.logging.Logger;
 
-@Component
-@Entity(name = "poloniex")
 public class Poloniex {
 
     @Id
