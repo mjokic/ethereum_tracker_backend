@@ -6,6 +6,11 @@ import live.coinvalue.model.Source;
 import live.coinvalue.repository.PriceRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 @Service
 public class PriceService {
 
@@ -23,6 +28,19 @@ public class PriceService {
 
     public Price getLatestPrice(Source source, Currency currency){
         return priceRepository.findFirstByCurrencyAndSourceOrderByIdDesc(currency, source);
+    }
+
+
+    public Price getYesterdayPrice(Currency currency,
+                                         Source source,
+                                         Price price){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(price.getDate());
+        calendar.add(Calendar.HOUR, -24);
+        Date yesterday = calendar.getTime();
+        Date now = price.getDate();
+        return priceRepository
+                .findFirstBySourceAndCurrencyAndDateIsBetween(source, currency,yesterday, now);
     }
 
 }

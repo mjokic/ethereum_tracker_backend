@@ -47,12 +47,16 @@ public class PriceController {
         if (currency == null) return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
 
         Price price = priceService.getLatestPrice(source, currency);
-        PriceDTO priceDTO = new PriceDTO(price, currency, -1338);
+        Price yesterdayPrice = priceService.getYesterdayPrice(currency, source, price);
+        PriceDTO priceDTO = new PriceDTO(price,
+                currency,
+                calculateChangePercent(yesterdayPrice.getPrice(), price.getPrice()));
+
         return new ResponseEntity<PriceDTO>(priceDTO, HttpStatus.OK);
     }
 
 
-    private double calculateChangePercent(Double oldPrice, Double currentPrice){
+    private double calculateChangePercent(double oldPrice, double currentPrice){
         return Precision.round(((oldPrice * 100 / currentPrice) - 100) * (-1),2);
     }
 
