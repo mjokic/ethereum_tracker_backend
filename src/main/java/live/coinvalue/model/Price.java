@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Price {
@@ -27,7 +26,8 @@ public class Price {
     @JoinColumn(name = "currency")
     private Currency currency;
 
-    public Price(){}
+    public Price() {
+    }
 
     public Price(Date date, double price, Source source, Currency currency) {
         this.date = date;

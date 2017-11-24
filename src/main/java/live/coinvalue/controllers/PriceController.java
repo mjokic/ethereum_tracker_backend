@@ -1,10 +1,13 @@
 package live.coinvalue.controllers;
 
+import live.coinvalue.dto.PriceDTO;
 import live.coinvalue.model.Currency;
 import live.coinvalue.model.Price;
 import live.coinvalue.model.Source;
 import live.coinvalue.services.PriceService;
 import live.coinvalue.services.SourceService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,25 +26,28 @@ public class PriceController {
      * Getting ETH price from selected source for selected currency
      * @param sourceSite Selected source
      * @param currencyName Selected currency
-     * @return ...
+     * @return Latest price
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{sourceSite}/{currencyName}")
-    public Price test(@PathVariable String sourceSite,
-                      @PathVariable String currencyName){
+    public ResponseEntity<?> getPrice(@PathVariable String sourceSite,
+                                   @PathVariable String currencyName){
 
-        Source s = sourceService.getSourceBySite(sourceSite);
-        Currency c = null;
+        Source source = sourceService.getSourceBySite(sourceSite);
 
-        for (Currency currency : s.getCurrencies()){
-            if (currency.getName().toLowerCase().equals(currencyName.toLowerCase())){
-                c = currency;
+        Currency currency = null;
+
+        for (Currency c : source.getCurrencies()){
+            if (c.getName().toLowerCase().equals(currencyName.toLowerCase())){
+                currency = c;
                 break;
             }
         }
 
-        if (c == null) return null;
+        if (currency == null) return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
 
-        return priceService.getLatestPrice(c, s);
+        Price price = priceService.getLatestPrice(source, currency);
+        PriceDTO priceDTO = new PriceDTO(price, currency, -1338);
+        return new ResponseEntity<PriceDTO>(priceDTO, HttpStatus.OK);
     }
 
 }

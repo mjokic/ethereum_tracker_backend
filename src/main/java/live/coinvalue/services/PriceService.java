@@ -21,7 +21,7 @@ public class PriceService {
     }
 
 
-    public Price getLatestPrice(Currency currency, Source source){
+    public Price getLatestPrice(Source source, Currency currency){
         return priceRepository.findFirstByCurrencyAndSourceOrderByIdDesc(currency, source);
     }
 
