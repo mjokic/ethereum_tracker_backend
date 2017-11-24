@@ -3,6 +3,7 @@ package live.coinvalue.dto;
 import live.coinvalue.model.Currency;
 import live.coinvalue.model.Price;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class PriceDTO {
@@ -18,7 +19,12 @@ public class PriceDTO {
 
     public PriceDTO(Price price, Currency currency, double change24hr) {
         this.date = price.getDate();
-        this.price = price.getPrice();
+        if (currency.getName().equals("BTC")){
+            this.price = price.getPrice();
+        }else {
+            DecimalFormat df = new DecimalFormat(".##");
+            this.price = Double.parseDouble(df.format(price.getPrice()));
+        }
         this.currency = currency;
         this.change24hr = change24hr;
     }

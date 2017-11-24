@@ -6,6 +6,7 @@ import live.coinvalue.model.Price;
 import live.coinvalue.model.Source;
 import live.coinvalue.services.PriceService;
 import live.coinvalue.services.SourceService;
+import org.apache.commons.math3.util.Precision;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,11 @@ public class PriceController {
         Price price = priceService.getLatestPrice(source, currency);
         PriceDTO priceDTO = new PriceDTO(price, currency, -1338);
         return new ResponseEntity<PriceDTO>(priceDTO, HttpStatus.OK);
+    }
+
+
+    private double calculateChangePercent(Double oldPrice, Double currentPrice){
+        return Precision.round(((oldPrice * 100 / currentPrice) - 100) * (-1),2);
     }
 
 }
