@@ -1,5 +1,7 @@
 package live.coinvalue.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,7 @@ public class Source {
         this.currencies = currencies;
     }
 
+    @JsonIgnore
     public List<Price> getPrice() {
         return price;
     }

@@ -4,103 +4,86 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.springframework.stereotype.Component;
+import live.coinvalue.model.Currency;
+import live.coinvalue.model.Price;
+import live.coinvalue.model.Source;
+import live.coinvalue.services.PriceService;
+import live.coinvalue.services.SourceService;
+import okhttp3.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Poloniex {
 
-    @Id
-    private long id = 1;
-    @Column(name = "usd")
-    private double usdValue;
-    @Column(name = "btc")
-    private double btcValue;
-
-    @Transient
-    private OkHttpClient client;
-    @Transient
-    private Gson gson;
+    private final OkHttpClient client;
+    private final Logger logger;
+    private final Gson gson;
+    private SourceService sourceService;
+    private PriceService priceService;
+    private String baseUrl = "https://poloniex.com/public?command=returnTicker";
 
 
-    public Poloniex(){
-        this.client = new OkHttpClient();
-        this.gson = new Gson();
+    public Poloniex(SourceService sourceService, PriceService priceService) {
+        client = new OkHttpClient();
+        logger = Logger.getLogger(getClass().getName());
+        gson = new Gson();
+
+        this.sourceService = sourceService;
+        this.priceService = priceService;
     }
 
+    public void getPrice() {
+        Source source = sourceService.getSourceBySite("poloniex");
+        List<Currency> currencies = source.getCurrencies();
 
-    public double updateValue(String value){
-        String url = "https://poloniex.com/public?command=returnTicker";
+        for (Currency currency : currencies) {
 
-        String objectName;
+            String objectName;
+            switch (currency.getName()) {
+                case "BTC":
+                    objectName = "BTC_ETH";
+                    break;
+                default:
+                    objectName = "USDT_ETH";
+            }
 
-        switch (value){
-            case "btc":
-                objectName = "BTC_ETH";
-                break;
-            default:
-                objectName = "USDT_ETH";
+            Request request = new Request.Builder()
+                    .url(baseUrl)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    logger.info(e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.code() != 200) return;
+
+                    JsonParser parser = new JsonParser();
+                    JsonElement element = parser.parse(response.body().string());
+                    JsonObject object = element.getAsJsonObject();
+
+                    JsonElement znj = object.get(objectName);
+
+                    PoloniexPojo poloniexPojo = gson.fromJson(znj, PoloniexPojo.class);
+                    System.out.println(poloniexPojo);
+
+                    save(poloniexPojo.getLast(), source, currency);
+                }
+            });
+
         }
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-
-        Logger logger = Logger.getLogger(Poloniex.class.getName());
-
-        try {
-            Response response = this.client.newCall(request).execute();
-            String responseString = response.body().string();
-
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(responseString);
-            JsonObject object = element.getAsJsonObject();
-
-            JsonElement znj = object.get(objectName);
-            PoloniexPojo poloniexPojo = new Gson().fromJson(znj, PoloniexPojo.class);
-
-//            System.out.println(poloniexPojo.getPercentChange() + "<-- PERCENT");
-
-            return poloniexPojo.getLast();
-
-        }catch (Exception ex){
-            logger.warning("Failed to get price("+value+"):\n");
-            ex.printStackTrace();
-            return 0;
-        }
-
     }
 
 
-    public long getId() {
-        return id;
+    private void save(double p, Source source, Currency currency) {
+        Price price = new Price(new Date(), p, source, currency);
+        priceService.savePrice(price);
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public double getUsdValue() {
-        return usdValue;
-    }
-
-    public void setUsdValue(double usdValue) {
-        this.usdValue = usdValue;
-    }
-
-    public double getBtcValue() {
-        return btcValue;
-    }
-
-    public void setBtcValue(double btcValue) {
-        this.btcValue = btcValue;
-    }
 }

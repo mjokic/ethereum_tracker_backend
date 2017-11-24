@@ -1,6 +1,8 @@
 package live.coinvalue.services;
 
+import live.coinvalue.model.Currency;
 import live.coinvalue.model.Price;
+import live.coinvalue.model.Source;
 import live.coinvalue.repository.PriceRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,11 @@ public class PriceService {
 
     public void savePrice(Price price){
         priceRepository.save(price);
+    }
+
+
+    public Price getLatestPrice(Currency currency, Source source){
+        return priceRepository.findFirstByCurrencyAndSourceOrderByIdDesc(currency, source);
     }
 
 }

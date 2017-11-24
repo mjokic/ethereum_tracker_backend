@@ -1,5 +1,7 @@
 package live.coinvalue.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,7 @@ public class Currency {
         this.sign = sign;
     }
 
+    @JsonIgnore
     public List<Source> getSource() {
         return source;
     }
@@ -55,6 +58,7 @@ public class Currency {
         this.source = source;
     }
 
+    @JsonIgnore
     public List<Price> getPrice() {
         return price;
     }
