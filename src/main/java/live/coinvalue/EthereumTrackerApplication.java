@@ -4,6 +4,7 @@ import live.coinvalue.model.Currency;
 import live.coinvalue.model.Source;
 import live.coinvalue.repository.CurrencyRepository;
 import live.coinvalue.repository.SourceRepository;
+import live.coinvalue.services.SourceService;
 import live.coinvalue.sources.cex_io.Cex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,10 +27,8 @@ public class EthereumTrackerApplication
         implements CommandLineRunner {
 
     @Autowired
-    SourceRepository sourceRepository;
+    SourceService sourceService;
 
-    @Autowired
-    CurrencyRepository currencyRepository;
 
 //    // Required when exporting as war
 //    @Override
@@ -91,7 +90,7 @@ public class EthereumTrackerApplication
         poloniexSource.addCurrencies(poloniexCurrency);
         sources.add(poloniexSource);
 
-        sourceRepository.save(sources);
+        sourceService.saveSource(sources);
     }
 
 }
