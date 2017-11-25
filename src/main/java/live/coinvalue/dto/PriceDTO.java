@@ -13,15 +13,15 @@ public class PriceDTO {
     private Currency currency;
     private double change24hr;
 
-    public PriceDTO(){
+    public PriceDTO() {
 
     }
 
     public PriceDTO(Price price, Currency currency, double change24hr) {
         this.date = price.getDate();
-        if (currency.getName().equals("BTC")){
+        if (currency.getName().equals("BTC")) {
             this.price = price.getPrice();
-        }else {
+        } else {
             DecimalFormat df = new DecimalFormat(".##");
             this.price = Double.parseDouble(df.format(price.getPrice()));
         }
