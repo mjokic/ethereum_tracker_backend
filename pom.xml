@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>live.coinvalue</groupId>
-	<artifactId>demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-    <!--<packaging>war</packaging>-->
+	<artifactId>ethereum_tracker</artifactId>
+	<version>1.0</version>
+	<!--<packaging>jar</packaging>-->
+    <packaging>war</packaging>
 
 
     <name>ethereumTracker</name>
@@ -61,12 +61,12 @@
 		</dependency>
 
 
-		<!--&lt;!&ndash;exporting as war&ndash;&gt;-->
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-			<!--<scope>provided</scope>-->
-		<!--</dependency>-->
+		<!--exporting as war-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-web -->

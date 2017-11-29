@@ -2,10 +2,7 @@ package live.coinvalue;
 
 import live.coinvalue.model.Currency;
 import live.coinvalue.model.Source;
-import live.coinvalue.repository.CurrencyRepository;
-import live.coinvalue.repository.SourceRepository;
 import live.coinvalue.services.SourceService;
-import live.coinvalue.sources.cex_io.Cex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,17 +26,15 @@ public class EthereumTrackerApplication
     @Autowired
     SourceService sourceService;
 
-
-//    // Required when exporting as war
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//        return builder.sources(EthereumTrackerApplication.class);
-//    }
-
     public static void main(String[] args) {
-		SpringApplication.run(EthereumTrackerApplication.class, args);
-	}
+        SpringApplication.run(EthereumTrackerApplication.class, args);
+    }
 
+    // Required when exporting as war
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(EthereumTrackerApplication.class);
+    }
 
     @Override
     public void run(String... strings) throws Exception {
@@ -47,7 +42,7 @@ public class EthereumTrackerApplication
         insertSources();
     }
 
-    private HashMap<String, Currency> generateAllCurrencies(){
+    private HashMap<String, Currency> generateAllCurrencies() {
         HashMap<String, Currency> currencies = new HashMap<>();
 
         currencies.put("usd", new Currency("USD", "$"));
@@ -57,7 +52,7 @@ public class EthereumTrackerApplication
         return currencies;
     }
 
-    private void insertSources(){
+    private void insertSources() {
         HashMap<String, Currency> currencies = generateAllCurrencies();
         List<Source> sources = new ArrayList<>();
 

@@ -18,4 +18,8 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
                                                        Currency currency,
                                                        Date date1,
                                                        Date date2);
+
+    List<Price> findAllBySourceAndCurrencyOrderByDateDesc(Source source,
+                                                          Currency currency);
+
 }

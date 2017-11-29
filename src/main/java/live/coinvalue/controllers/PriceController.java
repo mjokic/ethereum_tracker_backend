@@ -7,17 +7,19 @@ import live.coinvalue.model.Source;
 import live.coinvalue.services.PriceService;
 import live.coinvalue.services.SourceService;
 import org.apache.commons.math3.util.Precision;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping
 public class PriceController {
 
     private SourceService sourceService;
     private PriceService priceService;
 
+    @Autowired
     public PriceController(SourceService sourceService, PriceService priceService){
         this.sourceService = sourceService;
         this.priceService = priceService;

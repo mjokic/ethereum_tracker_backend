@@ -43,4 +43,9 @@ public class PriceService {
                 .findFirstBySourceAndCurrencyAndDateIsBetween(source, currency,yesterday, now);
     }
 
+
+    public List<Price> getAllPriceBySourceAndCurrency(Source source, Currency currency){
+        return priceRepository.findAllBySourceAndCurrencyOrderByDateDesc(source, currency);
+    }
+
 }
